@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease-in-out;
         }
+
         body {
             display: flex;
             flex-direction: column;
@@ -21,284 +23,277 @@
             min-height: 100vh;
             padding: 20px;
         }
-/* Top Right Buttons */
-.top-right-buttons {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-}
 
-/* Common Button Styles */
-.top-button {
-    min-width: 140px; /* Ensures both buttons have the same width */
-    height: 50px; /* Same height for both buttons */
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 16px;
+        /* 📌 Top Right Buttons */
+        .top-right-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-button {
+            min-width: 140px;
+            height: 45px;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        /* 📌 Light Mode */
+        .light-mode {
+            background: #f8f8f8;
+            color: #222;
+        }
+        .website-name {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
     font-weight: bold;
-    text-align: center;
-    white-space: nowrap; /* Prevents text wrapping */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-family: 'Cursive', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     transition: all 0.3s ease;
 }
 
-/* Light Mode */
-.light-mode .top-button {
-    background: linear-gradient(135deg, #76c893, #ffdd57);
-    color: black;
+/* 🌞 Light Mode */
+.light-mode .website-name {
+    color: #333;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Dark Mode */
-.dark-mode .top-button {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    color: white;
+/* 🌙 Dark Mode */
+.dark-mode .website-name {
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
 }
 
-/* Neon Mode */
-.neon-mode .top-button {
-    background: linear-gradient(135deg, #ff00ff, #00eaff);
-    color: white;
-    box-shadow: 0 0 20px #ff00ff;
+/* 🔥 Neon Mode */
+.neon-mode .website-name {
+    color: #00eaff;
+    text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
 }
 
-/* Hover Effect */
-.top-button:hover {
-    transform: scale(1.05);
-}
 
-        /* 🌞 Light Mode */
-        .light-mode {
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            color: #222;
-        }
-        .light-mode .header {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .light-mode .category, .light-mode .article {
-            background: rgba(0, 0, 0, 0.05);
-        }
-        .light-mode .mode-toggle {
+        .light-mode .top-button,
+        .light-mode .category {
             background: linear-gradient(135deg, #76c893, #ffdd57);
             color: black;
         }
 
-        /* 🌙 Dark Mode */
+        .light-mode .article {
+            background: white;
+            color: black;
+        }
+
+        /* 📌 Dark Mode */
         .dark-mode {
-            background: linear-gradient(135deg, #252525, #000000);
+            background: #1a1a1a;
             color: white;
         }
-        .dark-mode .header {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
-        }
-        .dark-mode .category, .dark-mode .article {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .dark-mode .mode-toggle {
+
+        .dark-mode .top-button,
+        .dark-mode .category {
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             color: white;
         }
 
-        /* 🔥 Neon Mode */
+        .dark-mode .article {
+            background: #333;
+            color: white;
+        }
+
+        /* 📌 Neon Mode */
         .neon-mode {
-            background: linear-gradient(135deg, #090909, #1b003b);
+            background: linear-gradient(135deg, #000000, #1b003b);
+            /* FIXED BACKGROUND */
             color: #00eaff;
         }
-        .neon-mode .header {
-            background: rgba(0, 238, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0, 238, 255, 0.6);
-        }
-        .neon-mode .category, .neon-mode .article {
-            background: rgba(0, 238, 255, 0.1);
-            border: 1px solid #00eaff;
-            box-shadow: 0 0 15px rgba(0, 238, 255, 0.5);
-        }
-        .neon-mode .mode-toggle {
+
+        .neon-mode .top-button,
+        .neon-mode .category {
             background: linear-gradient(135deg, #ff00ff, #00eaff);
             color: white;
-            box-shadow: 0 0 20px #ff00ff;
+            box-shadow: 0 0 10px #ff00ff;
         }
 
-        /* Header */
-        .header {
-            font-size: 24px;
-            font-weight: bold;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            width: 80%;
+        .neon-mode .article {
+            background: rgba(0, 238, 255, 0.1);
+            color: #00eaff;
+            border: 1px solid #00eaff;
+            box-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
         }
 
-        /* Mode Toggle Button */
-        .mode-toggle {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .top-button:hover,
+        .category:hover {
+            transform: scale(1.05);
+        }
+
+        .search-bar {
+            display: block;
+            width: 60%;
+            max-width: 600px;
+            margin: 20px auto;
+            /* Upar aur neeche thoda zyada gap dene ke liye */
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 15px;
+            border: 2px solid #131111;
+            outline: none;
             transition: all 0.3s ease;
         }
-        .mode-toggle:hover {
-            transform: scale(1.1);
+
+        .search-bar:hover,
+        .search-bar:focus {
+            transform: scale(1.05);
+            border-color: #76c893;
+            box-shadow: 0 0 15px rgba(118, 200, 147, 0.5);
         }
-        .search-bar {
-    display: block;
-    width: 60%;
-    max-width: 600px;
-    margin: 20px auto; /* Upar aur neeche thoda zyada gap dene ke liye */
-    padding: 15px;
-    font-size: 18px;
-    border-radius: 15px;
-    border: 2px solid #131111;
-    outline: none;
-    transition: all 0.3s ease;
-}
-.search-bar:hover, 
-.search-bar:focus {
-    transform: scale(1.05);
-    border-color: #76c893;
-    box-shadow: 0 0 15px rgba(118, 200, 147, 0.5);
-}
-.categories-container {
-    margin-top: 30px; /* Search bar aur categories ke beech extra space */
-}
 
 
-        /* Categories */
+        /* 📌 Categories */
+        .categories-container {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
         .categories {
             display: flex;
-            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-        }
-        .category {
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .category:hover {
-            transform: scale(1.1);
+            gap: 12px;
         }
 
-        /* Articles */
+        .category {
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        /* 📌 Articles */
         .container {
             max-width: 1200px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             padding: 20px;
             width: 100%;
-            justify-content: center;
         }
+
         .article {
             padding: 20px;
             border-radius: 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
         }
+
         .article:hover {
             transform: translateY(-5px);
+            box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
+
 <body class="light-mode">
+    <div class="website-name">My Awesome Blog</div>
+
+
+
+    <!-- 📌 Fixed: Top Right Buttons -->
+    <div class="top-right-buttons">
+        <a href="/-/contact.us" class="top-button">Contact Us</a>
+        <button class="top-button mode-toggle" onclick="toggleMode()">Switch Theme</button>
+    </div>
 
     <div class="header">
-        <!-- Top Right Buttons -->
-        <div class="top-right-buttons">
-            <a href="/-/contact.us" class="top-button new-button">Contact us</a>
-            <button class="top-button mode-toggle" onclick="toggleMode()">Switch Theme</button>
-        </div>
-
-        <!-- Search Bar (Moved Above "Homepage") -->
         <input class="search-bar" type="search" placeholder="Search articles..." oninput="searchArticles(this.value)">
     </div>
 
+    <!-- 📌 Categories -->
     <div class="categories-container">
         <div class="categories" id="categories"></div>
     </div>
 
-    <div class="container" id="articles"></div>
-
-
-
-
-
-
-
-
-
-    <div class="categories-container">
-        <div class="categories" id="categories"></div>
-    </div>
-
+    <!-- 📌 Articles -->
     <div class="container" id="articles"></div>
 
     <script>
+        // 📌 Categories List
         const categories = ["All", "SEO", "Marketing", "Development", "Design", "AI", "Finance", "Health", "Education", "Gaming", "Travel", "Lifestyle", "Business", "Cryptocurrency", "Science", "Entertainment"];
 
-        const articles = [
-            
-            
-        ];
-
         function displayCategories() {
-            document.getElementById('categories').innerHTML = categories.map(category => 
-                `<div class="category" onclick="filterArticles('${category}')">${category}</div>`).join('');
+            document.getElementById('categories').innerHTML = categories.map(category =>
+                `<div class="category" onclick="filterArticles('${category}', this)">${category}</div>`).join('');
         }
 
+        // 📌 Articles List
+        const articles = [];
         function displayArticles(filteredArticles = articles) {
-            document.getElementById('articles').innerHTML = filteredArticles.map(article => 
+            document.getElementById('articles').innerHTML = filteredArticles.map(article =>
                 `<div class="article" onclick="window.open('${article.link}', '_blank')">
                     <h2>${article.title}</h2>
                     <p>${article.content}</p>
                 </div>`).join('');
         }
 
-        function filterArticles(category) {
+        function addArticle(title, content, category, link = "#") {
+            articles.push({ title, content, link, category });
+            displayArticles();
+        }
+
+        // 📌 Sample Articles
+        addArticle("SEO Tips 2025", "Learn the best SEO strategies.", "SEO", "#");
+        addArticle("Gaming Trends", "Latest gaming news.", "Gaming", "#");
+        addArticle("AI Innovations", "How AI is changing the world.", "AI", "/-/blank");
+
+        // 📌 Filter Articles
+        function filterArticles(category, element) {
+            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('selected-category'));
+            element.classList.add('selected-category');
             displayArticles(category === 'All' ? articles : articles.filter(article => article.category === category));
         }
 
+        // 📌 Search Articles
         function searchArticles(searchTerm) {
-            displayArticles(articles.filter(article => article.title.toLowerCase().includes(searchTerm.toLowerCase())));
+            displayArticles(articles.filter(article =>
+                article.title.toLowerCase().includes(searchTerm.toLowerCase())));
         }
 
+        // 📌 Mode Switcher (NOW FIXED)
         const modes = ["light-mode", "dark-mode", "neon-mode"];
         let currentModeIndex = 0;
         function toggleMode() {
             document.body.classList.remove(modes[currentModeIndex]);
             currentModeIndex = (currentModeIndex + 1) % modes.length;
             document.body.classList.add(modes[currentModeIndex]);
+
+            document.querySelectorAll('.category, .article').forEach(el => {
+                el.classList.remove("light-mode", "dark-mode", "neon-mode");
+                el.classList.add(modes[currentModeIndex]);
+            });
         }
 
+        // 📌 Initialize
         displayCategories();
         displayArticles();
-        function addArticle(title, content, category) {
-    if (!title || !content || !category) {
-        alert("All fields are required!");
-        return;
-    }
-   function addArticle(title, content, category, link = "#") {
-    articles.push({ title, content, link, category });
-    displayArticles(); // Update the UI immediately
-}
-addArticle("Blank page", "...", "Development", "/-/blank");
-
-
-
-
     </script>
 </body>
+
 </html>
