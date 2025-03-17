@@ -290,11 +290,11 @@
         alert("All fields are required!");
         return;
     }
-    articles.push({ title, content, link: "#", category });
+   function addArticle(title, content, category, link = "#") {
+    articles.push({ title, content, link, category });
     displayArticles(); // Update the UI immediately
 }
-        addArticle("Abdullah ki shadi", "discover secrets about abdullah.", "Entertainment");
-addArticle("Abdullah ki bimari", "CFOD.", "Health");
+addArticle("Blank page", "...", "Development", "https://yourwebsite.com/blank-page");
 
 
 
