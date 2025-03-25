@@ -33,7 +33,8 @@
             gap: 10px;
         }
 
-        .top-button {
+        .top-button,
+        .pagination button {
             min-width: 140px;
             height: 45px;
             padding: 12px;
@@ -48,45 +49,45 @@
             transition: 0.3s;
         }
 
-        /* 📌 Light Mode */
+        .website-name {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: bold;
+            font-family: 'Cursive', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* 🌞 Light Mode */
+        .light-mode .website-name {
+            color: #333;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 🌙 Dark Mode */
+        .dark-mode .website-name {
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 🔥 Neon Mode */
+        .neon-mode .website-name {
+            color: #00eaff;
+            text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
+        }
+
         .light-mode {
             background: #f8f8f8;
             color: #222;
         }
-        .website-name {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 28px;
-    font-weight: bold;
-    font-family: 'Cursive', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-}
-
-/* 🌞 Light Mode */
-.light-mode .website-name {
-    color: #333;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* 🌙 Dark Mode */
-.dark-mode .website-name {
-    color: #fff;
-    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
-}
-
-/* 🔥 Neon Mode */
-.neon-mode .website-name {
-    color: #00eaff;
-    text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
-}
-
 
         .light-mode .top-button,
-        .light-mode .category {
+        .light-mode .category,
+        .light-mode .pagination button {
             background: linear-gradient(135deg, #76c893, #ffdd57);
             color: black;
         }
@@ -103,7 +104,8 @@
         }
 
         .dark-mode .top-button,
-        .dark-mode .category {
+        .dark-mode .category,
+        .dark-mode .pagination button {
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             color: white;
         }
@@ -116,12 +118,12 @@
         /* 📌 Neon Mode */
         .neon-mode {
             background: linear-gradient(135deg, #000000, #1b003b);
-            /* FIXED BACKGROUND */
             color: #00eaff;
         }
 
         .neon-mode .top-button,
-        .neon-mode .category {
+        .neon-mode .category,
+        .neon-mode .pagination button {
             background: linear-gradient(135deg, #ff00ff, #00eaff);
             color: white;
             box-shadow: 0 0 10px #ff00ff;
@@ -135,7 +137,8 @@
         }
 
         .top-button:hover,
-        .category:hover {
+        .category:hover,
+        .pagination button:hover {
             transform: scale(1.05);
         }
 
@@ -144,7 +147,6 @@
             width: 60%;
             max-width: 600px;
             margin: 20px auto;
-            /* Upar aur neeche thoda zyada gap dene ke liye */
             padding: 15px;
             font-size: 18px;
             border-radius: 15px;
@@ -159,7 +161,6 @@
             border-color: #76c893;
             box-shadow: 0 0 15px rgba(118, 200, 147, 0.5);
         }
-
 
         /* 📌 Categories */
         .categories-container {
@@ -208,13 +209,43 @@
             transform: translateY(-5px);
             box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
         }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination input {
+            width: 60px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 16px;
+            border: 2px solid #131111;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .pagination input:hover,
+        .pagination input:focus {
+            transform: scale(1.05);
+            border-color: #76c893;
+            box-shadow: 0 0 15px rgba(118, 200, 147, 0.5);
+        }
+
+        #pageDisplay {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body class="light-mode">
     <div class="website-name">My Awesome Blog</div>
-
-
 
     <!-- 📌 Fixed: Top Right Buttons -->
     <div class="top-right-buttons">
@@ -234,6 +265,17 @@
     <!-- 📌 Articles -->
     <div class="container" id="articles"></div>
 
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button onclick="goToPage(1)">First</button>
+        <button onclick="prevPage()">Previous</button>
+        <input type="number" id="pageInput" placeholder="Page" min="1">
+        <button onclick="nextPage()">Next</button>
+        <button onclick="goToPage(totalPages)">Last</button>
+    </div>
+    
+    <p id="pageDisplay">Current Page: 1</p>
+
     <script>
         // 📌 Categories List
         const categories = ["All", "SEO", "Marketing", "Development", "Design", "AI", "Finance", "Health", "Education", "Gaming", "Travel", "Lifestyle", "Business", "Cryptocurrency", "Science", "Entertainment"];
@@ -242,41 +284,142 @@
             document.getElementById('categories').innerHTML = categories.map(category =>
                 `<div class="category" onclick="filterArticles('${category}', this)">${category}</div>`).join('');
         }
+        // 📌 Pagination Functions
+function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        displayArticles();
+    }
+}
 
-        // 📌 Articles List
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayArticles();
+    }
+}
+
+function nextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayArticles();
+    }
+}
+
+// 📌 Jump to Page on Enter
+document.getElementById("pageInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        const pageNumber = parseInt(this.value);
+        if (!isNaN(pageNumber)) {
+            goToPage(pageNumber);
+        }
+    }
+});
+
+
+        // 📌 Articles List with Pagination
         const articles = [];
-        function displayArticles(filteredArticles = articles) {
-            document.getElementById('articles').innerHTML = filteredArticles.map(article =>
+        const articlesPerPage = 5;
+        let currentPage = 1;
+        let totalPages = 1;
+        let currentCategory = "All";
+        let currentSearchTerm = "";
+
+        function addArticle(title, content, category, link = "#") {
+            articles.push({ title, content, link, category });
+            totalPages = Math.ceil(articles.length / articlesPerPage);
+            displayArticles();
+        }
+
+        function getFilteredArticles() {
+            let filtered = articles;
+
+            // Apply category filter
+            if (currentCategory !== "All") {
+                filtered = filtered.filter(article => article.category === currentCategory);
+            }
+
+            // Apply search filter
+            if (currentSearchTerm) {
+                filtered = filtered.filter(article =>
+                    article.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+                    article.content.toLowerCase().includes(currentSearchTerm.toLowerCase())
+                );
+            }
+
+            return filtered;
+        }
+
+        function displayArticles() {
+            const filteredArticles = getFilteredArticles();
+            totalPages = Math.ceil(filteredArticles.length / articlesPerPage) || 1;
+
+            // Ensure currentPage is within valid range
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            } else if (currentPage < 1) {
+                currentPage = 1;
+            }
+
+            const startIndex = (currentPage - 1) * articlesPerPage;
+            const paginatedArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage);
+
+            document.getElementById('articles').innerHTML = paginatedArticles.map(article =>
                 `<div class="article" onclick="window.open('${article.link}', '_blank')">
                     <h2>${article.title}</h2>
                     <p>${article.content}</p>
                 </div>`).join('');
-        }
 
-        function addArticle(title, content, category, link = "#") {
-            articles.push({ title, content, link, category });
-            displayArticles();
+            document.getElementById("pageDisplay").innerText = `Current Page: ${currentPage} of ${totalPages}`;
         }
-
-        // 📌 Sample Articles
-        addArticle("SEO Tips 2025", "Learn the best SEO strategies.", "SEO", "#");
-        addArticle("Gaming Trends", "Latest gaming news.", "Gaming", "#");
-        addArticle("AI Innovations", "How AI is changing the world.", "AI", "/-/blank");
 
         // 📌 Filter Articles
         function filterArticles(category, element) {
             document.querySelectorAll('.category').forEach(cat => cat.classList.remove('selected-category'));
             element.classList.add('selected-category');
-            displayArticles(category === 'All' ? articles : articles.filter(article => article.category === category));
+            currentCategory = category;
+            currentPage = 1;
+            displayArticles();
         }
 
         // 📌 Search Articles
         function searchArticles(searchTerm) {
-            displayArticles(articles.filter(article =>
-                article.title.toLowerCase().includes(searchTerm.toLowerCase())));
+            currentSearchTerm = searchTerm;
+            currentPage = 1;
+            displayArticles();
         }
 
-        // 📌 Mode Switcher (NOW FIXED)
+        // 📌 Pagination Functions
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayArticles();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayArticles();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayArticles();
+            }
+        }
+
+        function jumpToPage() {
+            const inputPage = document.getElementById("pageInput").value;
+            const pageNumber = parseInt(inputPage);
+            if (!isNaN(pageNumber)) {
+                goToPage(pageNumber);
+            }
+        }
+
+        // 📌 Mode Switcher
         const modes = ["light-mode", "dark-mode", "neon-mode"];
         let currentModeIndex = 0;
         function toggleMode() {
@@ -289,6 +432,25 @@
                 el.classList.add(modes[currentModeIndex]);
             });
         }
+
+        // 📌 Sample Articles
+        addArticle("SEO Tips 2025", "Learn the best SEO strategies.", "SEO", "#");
+        addArticle("Gaming Trends", "Latest gaming news.", "Gaming", "#");
+        addArticle("AI Innovations", "How AI is changing the world.", "AI", "/-/blank");
+        addArticle("Web Development 2025", "New frameworks and tools.", "Development", "#");
+        addArticle("Healthy Lifestyle", "Tips for a healthier life.", "Health", "#");
+        addArticle("Financial Freedom", "How to achieve financial independence.", "Finance", "#");
+        addArticle("Travel Destinations", "Best places to visit in 2025.", "Travel", "#");
+        addArticle("Business Strategies", "Grow your business with these tips.", "Business", "#");
+        addArticle("Content Marketing Hacks", "Boost engagement with smart content strategies.", "Marketing", "#");
+addArticle("Web Development Trends 2025", "Stay ahead with the latest web technologies.", "Development", "#");
+addArticle("UI/UX Best Practices", "Enhance user experience with these tips.", "Design", "#");
+addArticle("AI in Everyday Life", "Discover how AI is revolutionizing daily tasks.", "AI", "#");
+addArticle("Investment Strategies 2025", "Make smarter financial decisions this year.", "Finance", "#");
+addArticle("Healthy Lifestyle Habits", "Improve your well-being with these habits.", "Health", "#");
+addArticle("Travel Destinations 2025", "Explore the top places to visit this year.", "Travel", "#");
+addArticle("Latest Science Discoveries", "Breakthroughs shaping the future of science.", "Science", "#");
+
 
         // 📌 Initialize
         displayCategories();
