@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Homepage</title>
+    <title>USA-In-News</title>
     <style>
         /* General Styles */
         * {
@@ -24,17 +24,19 @@
             padding: 20px;
         }
 
-        /* 📌 Top Right Buttons */
+        /* Top Right Buttons */
         .top-right-buttons {
             position: absolute;
             top: 20px;
             right: 20px;
             display: flex;
             gap: 10px;
+            z-index: 100;
         }
 
         .top-button,
-        .pagination button {
+        .pagination button{
+        
             min-width: 140px;
             height: 45px;
             padding: 12px;
@@ -46,7 +48,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Pagination arrow buttons */
+        .pagination-arrow {
+            min-width: 45px !important;
+            width: 45px !important;
         }
 
         .website-name {
@@ -60,26 +70,10 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.3s ease;
+            z-index: 100;
         }
 
-        /* 🌞 Light Mode */
-        .light-mode .website-name {
-            color: #333;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 🌙 Dark Mode */
-        .dark-mode .website-name {
-            color: #fff;
-            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* 🔥 Neon Mode */
-        .neon-mode .website-name {
-            color: #00eaff;
-            text-shadow: 0 0 15px #00eaff, 0 0 30px #ff00ff;
-        }
-
+        /* Light Mode */
         .light-mode {
             background: #f8f8f8;
             color: #222;
@@ -97,7 +91,7 @@
             color: black;
         }
 
-        /* 📌 Dark Mode */
+        /* Dark Mode */
         .dark-mode {
             background: #1a1a1a;
             color: white;
@@ -115,7 +109,7 @@
             color: white;
         }
 
-        /* 📌 Neon Mode */
+        /* Neon Mode */
         .neon-mode {
             background: linear-gradient(135deg, #000000, #1b003b);
             color: #00eaff;
@@ -136,10 +130,12 @@
             box-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
         }
 
+        /* Interactive Elements */
         .top-button:hover,
         .category:hover,
         .pagination button:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .search-bar {
@@ -157,12 +153,62 @@
 
         .search-bar:hover,
         .search-bar:focus {
-            transform: scale(1.05);
+            transform: scale(1.02);
             border-color: #76c893;
             box-shadow: 0 0 15px rgba(118, 200, 147, 0.5);
         }
 
-        /* 📌 Categories */
+        /* Categories - Improved Design */
+        .categories-container {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            gap: 12px;
+            padding: 10px;
+            max-width: 100%;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #76c893 #f8f8f8;
+        }
+
+        .categories::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .categories::-webkit-scrollbar-track {
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .categories::-webkit-scrollbar-thumb {
+            background-color: #76c893;
+            border-radius: 10px;
+        }
+
+        .dark-mode .categories::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        .dark-mode .categories::-webkit-scrollbar-thumb {
+            background-color: #ff9a9e;
+        }
+
+        .neon-mode .categories::-webkit-scrollbar-track {
+            background: #1b003b;
+        }
+
+        .neon-mode .categories::-webkit-scrollbar-thumb {
+            background-color: #ff00ff;
+        }
+
         .categories-container {
             margin-top: 20px;
             text-align: center;
@@ -186,7 +232,12 @@
             transition: 0.3s;
         }
 
-        /* 📌 Articles */
+        .selected-category {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Articles */
         .container {
             max-width: 1200px;
             display: grid;
@@ -202,11 +253,14 @@
             text-align: center;
             cursor: pointer;
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            transform-origin: center top;
         }
 
         .article:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
         }
 
@@ -241,15 +295,59 @@
             margin-top: 10px;
             font-weight: bold;
         }
+
+        /* Animation Styles */
+        @keyframes buttonClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes liftUp {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes paperTear {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(0.9) rotate(5deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(10deg); opacity: 0; }
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .click-animation {
+            animation: buttonClick 0.2s ease-in-out;
+        }
+
+        .tear-animation {
+            animation: paperTear 0.5s forwards;
+            pointer-events: none;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
     </style>
 </head>
 
 <body class="light-mode">
-    <div class="website-name">My Awesome Blog</div>
+    <div class="website-name">USA-In-News</div>
 
-    <!-- 📌 Fixed: Top Right Buttons -->
+    <!-- Top Right Buttons -->
     <div class="top-right-buttons">
-        <a href="/-/contact.us" class="top-button">Contact Us</a>
+        <a href="/-/contact.us" class="top-button" id="contactBtn">Contact Us</a>
         <button class="top-button mode-toggle" onclick="toggleMode()">Switch Theme</button>
     </div>
 
@@ -257,69 +355,150 @@
         <input class="search-bar" type="search" placeholder="Search articles..." oninput="searchArticles(this.value)">
     </div>
 
-    <!-- 📌 Categories -->
+    <!-- Categories - Improved Design -->
     <div class="categories-container">
         <div class="categories" id="categories"></div>
     </div>
 
-    <!-- 📌 Articles -->
+    <!-- Articles -->
     <div class="container" id="articles"></div>
 
     <!-- Pagination Controls -->
     <div class="pagination">
         <button onclick="goToPage(1)">First</button>
-        <button onclick="prevPage()">Previous</button>
+        <button class="pagination-arrow" onclick="prevPage()"> &lt; </button>
         <input type="number" id="pageInput" placeholder="Page" min="1">
-        <button onclick="nextPage()">Next</button>
+        <button class="pagination-arrow" onclick="nextPage()"> &gt; </button>
         <button onclick="goToPage(totalPages)">Last</button>
     </div>
-    
+
     <p id="pageDisplay">Current Page: 1</p>
 
     <script>
-        // 📌 Categories List
-        const categories = ["All", "SEO", "Marketing", "Development", "Design", "AI", "Finance", "Health", "Education", "Gaming", "Travel", "Lifestyle", "Business", "Cryptocurrency", "Science", "Entertainment"];
+        // Sound effects using the Web Audio API
+        function playClickSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.1;
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        }
+
+        function playArticleSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioCtx.currentTime;
+            
+            // Create a more pleasant sound for article clicks
+            const oscillator1 = audioCtx.createOscillator();
+            const oscillator2 = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator1.type = 'sine';
+            oscillator1.frequency.setValueAtTime(523.25, now); // C5 note
+            oscillator1.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5 note
+            
+            oscillator2.type = 'triangle';
+            oscillator2.frequency.setValueAtTime(783.99, now); // G5 note
+            oscillator2.frequency.exponentialRampToValueAtTime(987.77, now + 0.1); // B5 note
+            
+            gainNode.gain.setValueAtTime(0.2, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator1.start(now);
+            oscillator2.start(now);
+            oscillator1.stop(now + 0.3);
+            oscillator2.stop(now + 0.3);
+        }
+
+        // Add ripple effect to buttons
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add("ripple");
+
+            const ripple = button.getElementsByClassName("ripple")[0];
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        // Initialize button effects
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.top-button, .pagination button, .category');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    // Play click sound
+                    playClickSound();
+
+                    // Add click animation
+                    this.classList.add('click-animation');
+                    setTimeout(() => {
+                        this.classList.remove('click-animation');
+                    }, 200);
+
+                    // Create ripple effect
+                    createRipple(e);
+                });
+            });
+
+            // Add article click sound
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.article')) {
+                    playArticleSound();
+                }
+            });
+        });
+
+        // Categories List - Organized by popularity
+        const categories = [
+            "All", 
+            "Technology", 
+            "Business", 
+            "Health", 
+            "Science", 
+            "Entertainment", 
+            "Sports", 
+            "Politics", 
+            "Finance", 
+            "Education", 
+            "Travel", 
+            "Lifestyle", 
+            "Food", 
+            "Automotive", 
+            "Real Estate", 
+            "Environment"
+        ];
 
         function displayCategories() {
             document.getElementById('categories').innerHTML = categories.map(category =>
                 `<div class="category" onclick="filterArticles('${category}', this)">${category}</div>`).join('');
         }
-        // 📌 Pagination Functions
-function goToPage(page) {
-    if (page >= 1 && page <= totalPages) {
-        currentPage = page;
-        displayArticles();
-    }
-}
 
-function prevPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        displayArticles();
-    }
-}
-
-function nextPage() {
-    if (currentPage < totalPages) {
-        currentPage++;
-        displayArticles();
-    }
-}
-
-// 📌 Jump to Page on Enter
-document.getElementById("pageInput").addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        const pageNumber = parseInt(this.value);
-        if (!isNaN(pageNumber)) {
-            goToPage(pageNumber);
-        }
-    }
-});
-
-
-        // 📌 Articles List with Pagination
+        // Articles List with Pagination
         const articles = [];
-        const articlesPerPage = 5;
+        const articlesPerPage = 9;
         let currentPage = 1;
         let totalPages = 1;
         let currentCategory = "All";
@@ -350,11 +529,11 @@ document.getElementById("pageInput").addEventListener("keypress", function (even
             return filtered;
         }
 
+        // Function to display articles
         function displayArticles() {
             const filteredArticles = getFilteredArticles();
             totalPages = Math.ceil(filteredArticles.length / articlesPerPage) || 1;
 
-            // Ensure currentPage is within valid range
             if (currentPage > totalPages) {
                 currentPage = totalPages;
             } else if (currentPage < 1) {
@@ -365,31 +544,51 @@ document.getElementById("pageInput").addEventListener("keypress", function (even
             const paginatedArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage);
 
             document.getElementById('articles').innerHTML = paginatedArticles.map(article =>
-                `<div class="article" onclick="window.open('${article.link}', '_blank')">
+                `<div class="article" onclick="openArticle('${article.link}', this)">
                     <h2>${article.title}</h2>
                     <p>${article.content}</p>
                 </div>`).join('');
 
             document.getElementById("pageDisplay").innerText = `Current Page: ${currentPage} of ${totalPages}`;
+            document.getElementById("pageInput").value = currentPage;
         }
 
-        // 📌 Filter Articles
+        // Article opening with sound
+        function openArticle(link, element) {
+            // Add tear animation
+            element.classList.add('tear-animation');
+
+            // Open link after animation completes
+            setTimeout(() => {
+                window.open(link, '_blank');
+                element.classList.remove('tear-animation');
+            }, 500);
+        }
+
+        // Filter Articles
         function filterArticles(category, element) {
             document.querySelectorAll('.category').forEach(cat => cat.classList.remove('selected-category'));
             element.classList.add('selected-category');
             currentCategory = category;
             currentPage = 1;
             displayArticles();
+            
+            // Auto-scroll categories if needed
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
         }
 
-        // 📌 Search Articles
+        // Search Articles
         function searchArticles(searchTerm) {
             currentSearchTerm = searchTerm;
             currentPage = 1;
             displayArticles();
         }
 
-        // 📌 Pagination Functions
+        // Pagination Functions
         function goToPage(page) {
             if (page >= 1 && page <= totalPages) {
                 currentPage = page;
@@ -419,7 +618,17 @@ document.getElementById("pageInput").addEventListener("keypress", function (even
             }
         }
 
-        // 📌 Mode Switcher
+        // Jump to Page on Enter
+        document.getElementById("pageInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                const pageNumber = parseInt(this.value);
+                if (!isNaN(pageNumber)) {
+                    goToPage(pageNumber);
+                }
+            }
+        });
+
+        // Mode Switcher
         const modes = ["light-mode", "dark-mode", "neon-mode"];
         let currentModeIndex = 0;
         function toggleMode() {
@@ -431,28 +640,44 @@ document.getElementById("pageInput").addEventListener("keypress", function (even
                 el.classList.remove("light-mode", "dark-mode", "neon-mode");
                 el.classList.add(modes[currentModeIndex]);
             });
+
+            // Play mode switch sound
+            playClickSound();
         }
 
-        // 📌 Sample Articles
-        addArticle("SEO Tips 2025", "Learn the best SEO strategies.", "SEO", "#");
-        addArticle("Gaming Trends", "Latest gaming news.", "Gaming", "#");
-        addArticle("AI Innovations", "How AI is changing the world.", "AI", "/-/blank");
-        addArticle("Web Development 2025", "New frameworks and tools.", "Development", "#");
-        addArticle("Healthy Lifestyle", "Tips for a healthier life.", "Health", "#");
-        addArticle("Financial Freedom", "How to achieve financial independence.", "Finance", "#");
-        addArticle("Travel Destinations", "Best places to visit in 2025.", "Travel", "#");
-        addArticle("Business Strategies", "Grow your business with these tips.", "Business", "#");
-        addArticle("Content Marketing Hacks", "Boost engagement with smart content strategies.", "Marketing", "#");
-addArticle("Web Development Trends 2025", "Stay ahead with the latest web technologies.", "Development", "#");
-addArticle("UI/UX Best Practices", "Enhance user experience with these tips.", "Design", "#");
-addArticle("AI in Everyday Life", "Discover how AI is revolutionizing daily tasks.", "AI", "#");
-addArticle("Investment Strategies 2025", "Make smarter financial decisions this year.", "Finance", "#");
-addArticle("Healthy Lifestyle Habits", "Improve your well-being with these habits.", "Health", "#");
-addArticle("Travel Destinations 2025", "Explore the top places to visit this year.", "Travel", "#");
-addArticle("Latest Science Discoveries", "Breakthroughs shaping the future of science.", "Science", "#");
+        // Sample Articles
+        addArticle("Tech Breakthrough 2025", "New quantum computing milestone achieved.", "Technology", "#");
+        addArticle("Market Trends", "Stock market reaches all-time high.", "Business", "#");
+        addArticle("Health Study Results", "New study reveals benefits of Mediterranean diet.", "Health", "#");
+        addArticle("Space Exploration", "NASA announces mission to Europa.", "Science", "#");
+        addArticle("Award Season", "Oscars 2025 nominations announced.", "Entertainment", "#");
+        addArticle("Championship Finals", "Local team wins national championship.", "Sports", "#");
+        addArticle("Policy Changes", "New legislation on climate change passed.", "Politics", "#");
+        addArticle("Investment Guide", "Best stocks to watch in Q2 2025.", "Finance", "#");
+        addArticle("Education Reform", "New teaching methods improve test scores.", "Education", "#");
+        addArticle("Travel Destinations", "Top 10 places to visit this summer.", "Travel", "#");
+        addArticle("Home Organization", "Minimalist living tips for small spaces.", "Lifestyle", "#");
+        addArticle("New Restaurant", "Michelin-starred chef opens downtown eatery.", "Food", "#");
+        addArticle("Electric Vehicles", "2025's most anticipated EV models.", "Automotive", "#");
+        addArticle("Housing Market", "Experts predict cooling in hot markets.", "Real Estate", "#");
+        addArticle("Climate Report", "Latest findings on global warming trends.", "Environment", "#");
+        addArticle("AI Advancements", "How machine learning is transforming industries.", "Technology", "#");
+        addArticle("Startup Success", "Local company reaches unicorn status.", "Business", "#");
+        addArticle("Mental Health", "New therapies show promise for depression.", "Health", "#");
+        addArticle("Medical Breakthrough", "Researchers discover potential cancer treatment.", "Science", "#");
+        addArticle("Streaming Wars", "Which platform offers the best value?", "Entertainment", "#");
+        addArticle("Olympic Preview", "Athletes to watch in upcoming games.", "Sports", "#");
+        addArticle("Election Coverage", "Latest polls show tight race.", "Politics", "#");
+        addArticle("Retirement Planning", "How to prepare for financial independence.", "Finance", "#");
+        addArticle("Online Learning", "Best platforms for skill development.", "Education", "#");
+        addArticle("Adventure Travel", "Extreme destinations for thrill-seekers.", "Travel", "#");
+        addArticle("Work-Life Balance", "Tips for remote workers to stay productive.", "Lifestyle", "#");
+        addArticle("Farm-to-Table", "The rise of hyper-local dining.", "Food", "#");
+        addArticle("Autonomous Cars", "When will self-driving become mainstream?", "Automotive", "#");
+        addArticle("Urban Living", "The future of city apartment design.", "Real Estate", "#");
+        addArticle("Conservation Efforts", "Success stories in wildlife protection.", "Environment", "#");
 
-
-        // 📌 Initialize
+        // Initialize
         displayCategories();
         displayArticles();
     </script>
